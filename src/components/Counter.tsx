@@ -10,12 +10,25 @@ import {
   Button,
 } from "./styled/styled";
 import { Canvas } from "@react-three/fiber";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function Counter() {
   const { connected } = useTonConnect();
   const { value, address, sendIncrement } = useCounterContract();
-  const [counter, setCounter] = useState(0)
+  const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    const localCount = window.localStorage.getItem('counter');
+    if (localCount) {
+      let savedNumber = JSON.parse(localCount);
+      setCounter(savedNumber);
+    }
+  }, [])
+  
+  useEffect(() => {
+    window.localStorage.setItem('counter',JSON.stringify(counter));
+  }, [counter])
+  
   return (
     <div className="Container">
       <TonConnectButton />

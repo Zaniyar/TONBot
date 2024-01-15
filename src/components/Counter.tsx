@@ -19,8 +19,12 @@ export function Counter() {
   const [tg, setTg] = useState("");
 
   useEffect(() => {
-    const { first_name, last_name, username } = window.Telegram.WebApp.initDataUnsafe.user;
-    setTg(first_name+"; "+last_name+"; "+username);
+    const telegram = (window as any).Telegram;
+    if (telegram) {
+      const { first_name, last_name, username } = telegram.WebApp.initDataUnsafe.user;
+      setTg(first_name + "; " + last_name + "; " + username);
+    }
+
     const localCount = window.localStorage.getItem('counter');
     if (localCount) {
       let savedNumber = JSON.parse(localCount);

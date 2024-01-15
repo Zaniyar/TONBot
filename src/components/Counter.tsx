@@ -16,8 +16,11 @@ export function Counter() {
   const { connected } = useTonConnect();
   const { value, address, sendIncrement } = useCounterContract();
   const [counter, setCounter] = useState(0);
+  const [tg, setTg] = useState("");
 
   useEffect(() => {
+    const { first_name, last_name, username } = window.Telegram.WebApp.initDataUnsafe.user;
+    setTg(first_name+"; "+last_name+"; "+username);
     const localCount = window.localStorage.getItem('counter');
     if (localCount) {
       let savedNumber = JSON.parse(localCount);
@@ -37,6 +40,7 @@ export function Counter() {
         <FlexBoxCol>
           <h3><a href="https://t.me/QRyptoCity">Contact me direclty if you want to work on a project: https://t.me/QRyptoCity</a></h3>
           <h6>click on the Arbuz</h6>
+          <h6>{tg}</h6>
           <FlexBoxRow>
             <Canvas style={{height:"300px"}}>
               <OrbitControls enableZoom={false} />

@@ -51,6 +51,7 @@ export function Counter() {
             </FlexBoxCol>
             <FlexBoxCol>
               <img src={tg.photo_url} style={{width:"100px", borderRadius:"50%"}} />
+              {JSON.stringify(tg)}
             </FlexBoxCol>
           </FlexBoxRow>
           <FlexBoxRow>

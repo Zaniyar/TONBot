@@ -16,13 +16,13 @@ export function Counter() {
   const { connected } = useTonConnect();
   const { value, address, sendIncrement } = useCounterContract();
   const [counter, setCounter] = useState(0);
-  const [tg, setTg] = useState("");
+  const [tg, setTg] = useState({first_name:"",last_name:"",username:"",photo_url:""});
 
   useEffect(() => {
     const telegram = (window as any).Telegram;
     if (telegram) {
-      const { first_name, last_name, username } = telegram.WebApp.initDataUnsafe.user;
-      setTg(first_name + "; " + last_name + "; " + username);
+      // const { first_name, last_name, username } = telegram.WebApp.initDataUnsafe.user;
+      setTg(telegram.WebApp.initDataUnsafe.user);
     }
 
     const localCount = window.localStorage.getItem('counter');
@@ -44,7 +44,15 @@ export function Counter() {
         <FlexBoxCol>
           <h3><a href="https://t.me/QRyptoCity">Contact me direclty if you want to work on a project: https://t.me/QRyptoCity</a></h3>
           <h6>click on the Arbuz</h6>
-          <h6>{tg}</h6>
+          photo_url
+          <FlexBoxRow>
+            <FlexBoxCol>
+            Hi {tg.first_name} {tg.last_name} - @{tg.username}
+            </FlexBoxCol>
+            <FlexBoxCol>
+              <img src={tg.photo_url} style={{width:"100px", borderRadius:"50%"}} />
+            </FlexBoxCol>
+          </FlexBoxRow>
           <FlexBoxRow>
             <Canvas style={{height:"300px"}}>
               <OrbitControls enableZoom={false} />

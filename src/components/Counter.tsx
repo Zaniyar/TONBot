@@ -11,6 +11,7 @@ import {
 } from "./styled/styled";
 import { Canvas } from "@react-three/fiber";
 import { useEffect, useState } from "react";
+import Webcam from "react-webcam";
 
 export function Counter() {
   const { connected } = useTonConnect();
@@ -44,7 +45,7 @@ export function Counter() {
         <FlexBoxCol>
           <h3><a href="https://t.me/QRyptoCity">Contact me direclty if you want to work on a project: https://t.me/QRyptoCity</a></h3>
           <h6>click on the Arbuz</h6>
-          photo_url
+          <Webcam />
           <FlexBoxRow>
             <FlexBoxCol>
             Hi {tg.first_name} {tg.last_name} - @{tg.username}

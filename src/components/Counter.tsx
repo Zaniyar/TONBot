@@ -57,7 +57,24 @@ export function Counter() {
             </FlexBoxCol>
           </FlexBoxRow>
           <FlexBoxRow>
-            window: {JSON.stringify(window)}
+            window: 
+            <ul>
+        {Object.keys(window).map((prop, index) => (
+          <li key={index}>
+            {prop}: {
+              // Attempt to stringify the property value, but catch any errors like circular references
+              // or properties that cannot be accessed due to browser security restrictions
+              (() => {
+                try {
+                  return window[prop].toString();
+                } catch (error) {
+                  return 'Access Restricted';
+                }
+              })()
+            }
+          </li>
+        ))}
+      </ul>
           </FlexBoxRow>
           <FlexBoxRow>
             <XRButton

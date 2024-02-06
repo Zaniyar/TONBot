@@ -57,7 +57,7 @@ export function Counter() {
             </FlexBoxCol>
           </FlexBoxRow>
           <FlexBoxRow>
-            {JSON.stringify(window.navigator)}
+            window: {JSON.stringify(window)}
           </FlexBoxRow>
           <FlexBoxRow>
             <XRButton

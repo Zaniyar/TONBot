@@ -19,6 +19,15 @@ const NavigatorProperties: React.FC = () => {
   const [properties, setProperties] = useState<string[]>([]);
 
   useEffect(() => {
+    if (navigator.xr) {
+      navigator.xr.isSessionSupported('immersive-ar').then((supported) => {
+        alert('Immersive AR supported:'+ JSON.stringify(supported));
+        if (!supported) {
+          alert('Immersive AR is not supported by your device/browser.');
+        }
+      });
+    }
+
     const getAllProperties = (obj: Object) => {
       let properties = new Set<string>();
       let currentObj: Object | null = obj;

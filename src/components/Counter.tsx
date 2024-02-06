@@ -12,6 +12,7 @@ import {
 import { Canvas } from "@react-three/fiber";
 import { useEffect, useState } from "react";
 import Webcam from "react-webcam";
+import { XRButton, XR, Controllers } from "@react-three/xr";
 
 export function Counter() {
   const { connected } = useTonConnect();
@@ -48,20 +49,36 @@ export function Counter() {
           <Webcam />
           <FlexBoxRow>
             <FlexBoxCol>
-            Hi {tg.first_name} {tg.last_name} - @{tg.username}
+            {tg && `Hi ${tg.first_name} ${tg.last_name} - @${tg.username}`}
             </FlexBoxCol>
             <FlexBoxCol>
-              <img src={tg.photo_url} style={{width:"100px", borderRadius:"50%"}} />
+              <img src={tg ? tg.photo_url : "https://placekitten.com/200/139"} style={{width:"100px", height: "100px", borderRadius:"50%"}} />
               {JSON.stringify(tg)}
             </FlexBoxCol>
           </FlexBoxRow>
           <FlexBoxRow>
+            <XRButton
+              mode={'AR'}
+              sessionInit={{ optionalFeatures: ['local-floor'] }}
+              /** Whether this button should only enter an `XRSession`. Default is `false` */
+              enterOnly={false}
+              /** Whether this button should only exit an `XRSession`. Default is `false` */
+              exitOnly={false}
+              /** This callback gets fired if XR initialization fails. */
+              onError={(error) => alert(JSON.stringify(error))}
+            >
+              {/* Can accept regular DOM children and has an optional callback with the XR button status (unsupported, exited, entered) */}
+              {(status) => `WebXR ${status}`}
+            </XRButton>
             <Canvas style={{height:"300px"}}>
+              <XR>
+              <Controllers />
               <OrbitControls enableZoom={false} />
               <Environment preset={"city"} />
               <spotLight intensity={2} position={[-6,0,2]}/>
               <Html position={[0,4,0]} ><h3 style={{color:"white", userSelect: "none", textShadow: "0 0 10px #fff, 0 0 10px #fff, 0 0 10px #e60073, 0 0 10px #e60073, 0 0 10px #e60073, 0 0 10px #e60073, 0 0 10px #e60073"}}>Contact: @QRyptoCity</h3></Html>
               <Gltf onClick={()=>{setCounter(counter+1)}} rotation={[.7,2,0]} scale={12} src="watermelon_fruit.glb" />
+              </XR>
             </Canvas>
           </FlexBoxRow>
           <FlexBoxRow>

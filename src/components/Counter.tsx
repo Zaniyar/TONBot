@@ -62,11 +62,11 @@ export function Counter() {
         {Object.keys(window).map((prop, index) => (
           <li key={index}>
             {prop}: {
-              // Attempt to stringify the property value, but catch any errors like circular references
-              // or properties that cannot be accessed due to browser security restrictions
               (() => {
                 try {
-                  return window[prop].toString();
+                  // Use a type assertion for 'prop' to satisfy TypeScript's type checking
+                  const value = (window as any)[prop];
+                  return typeof value === 'function' ? 'Function' : value.toString();
                 } catch (error) {
                   return 'Access Restricted';
                 }

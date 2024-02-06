@@ -75,6 +75,8 @@ export function Counter() {
           </li>
         ))}
       </ul>
+      <h1>Navigator:</h1>
+      {JSON.stringify(window.navigator)}
           </FlexBoxRow>
           <FlexBoxRow>
             <XRButton

@@ -15,19 +15,38 @@ import Webcam from "react-webcam";
 import { XRButton, XR, Controllers } from "@react-three/xr";
 
 
+async function checkXRSupport() {
+  if ('xr' in navigator && navigator.xr != null) {
+    try {
+      const vrSupported = await navigator.xr.isSessionSupported('immersive-vr');
+      alert('Immersive VR supported: ' + vrSupported);
+    } catch (error) {
+      alert('Error checking VR support: ' + error);
+    }
+
+    try {
+      const arSupported = await navigator.xr.isSessionSupported('immersive-ar');
+      alert('Immersive AR supported: ' + arSupported);
+    } catch (error) {
+      alert('Error checking AR support: ' + error);
+    }
+
+    try {
+      const inlineSupported = await navigator.xr.isSessionSupported('inline');
+      alert('Inline sessions supported: ' + inlineSupported);
+    } catch (error) {
+      alert('Error checking inline session support: ' + error);
+    }
+  } else {
+    alert('WebXR API is not available.');
+  }
+}
+
 const NavigatorProperties: React.FC = () => {
   const [properties, setProperties] = useState<string[]>([]);
 
   useEffect(() => {
-    if (navigator.xr) {
-      navigator.xr.isSessionSupported('immersive-ar').then((supported) => {
-        alert('Immersive AR supported:'+ JSON.stringify(supported));
-        if (!supported) {
-          alert('Immersive AR is not supported by your device/browser.');
-        }
-      });
-    }
-
+    checkXRSupport();
     const getAllProperties = (obj: Object) => {
       let properties = new Set<string>();
       let currentObj: Object | null = obj;

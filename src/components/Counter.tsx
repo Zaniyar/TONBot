@@ -14,6 +14,38 @@ import { useEffect, useState } from "react";
 import Webcam from "react-webcam";
 import { XRButton, XR, Controllers } from "@react-three/xr";
 
+
+const NavigatorProperties: React.FC = () => {
+  const [properties, setProperties] = useState<string[]>([]);
+
+  useEffect(() => {
+    const getAllProperties = (obj: Object) => {
+      let properties = new Set<string>();
+      let currentObj: Object | null = obj;
+
+      do {
+        Object.getOwnPropertyNames(currentObj).forEach(item => properties.add(item));
+      } while ((currentObj = Object.getPrototypeOf(currentObj)));
+
+      return [...properties];
+    };
+
+    setProperties(getAllProperties(window.navigator));
+  }, []);
+
+  return (
+    <div>
+      <h2>Navigator Properties</h2>
+      <ul>
+        {properties.map((prop, index) => (
+          <li key={index}>{prop}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+
 export function Counter() {
   const { connected } = useTonConnect();
   const { value, address, sendIncrement } = useCounterContract();
@@ -57,26 +89,7 @@ export function Counter() {
             </FlexBoxCol>
           </FlexBoxRow>
           <FlexBoxRow>
-            window: 
-            <ul>
-        {Object.keys(window).map((prop, index) => (
-          <li key={index}>
-            {prop}: {
-              (() => {
-                try {
-                  // Use a type assertion for 'prop' to satisfy TypeScript's type checking
-                  const value = (window as any)[prop];
-                  return typeof value === 'function' ? 'Function' : value.toString();
-                } catch (error) {
-                  return 'Access Restricted';
-                }
-              })()
-            }
-          </li>
-        ))}
-      </ul>
-      <h1>Navigator:</h1>
-      {JSON.stringify(window.navigator)}
+            <NavigatorProperties/>
           </FlexBoxRow>
           <FlexBoxRow>
             <XRButton

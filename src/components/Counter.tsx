@@ -57,6 +57,9 @@ export function Counter() {
             </FlexBoxCol>
           </FlexBoxRow>
           <FlexBoxRow>
+            {JSON.stringify(window.navigator)}
+          </FlexBoxRow>
+          <FlexBoxRow>
             <XRButton
               mode={'AR'}
               sessionInit={{ optionalFeatures: ['local-floor'] }}
